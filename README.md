@@ -1,7 +1,7 @@
 ## Get started
 
 - To install dependencies, use: pip3 install "fastapi[all]"
-- To start the dev server, use: `uvicorn main:chit --reload`
+- To start the dev server, use: `uvicorn main:app --reload`
 
 ## File structure
 
