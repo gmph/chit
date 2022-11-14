@@ -11,5 +11,5 @@
 
 [![Deploy](https://button.deta.dev/1/svg)](https://go.deta.dev/deploy?repo=https://github.com/gmph/chit)
 
-- You can also deploy your own instance to [Deta](deta.sh)
+- You can also deploy your own instance to [Deta](https://deta.sh)
 - Navigate to `/set-password/{new_password}` to set up an admin password
