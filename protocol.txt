@@ -1,0 +1,37 @@
+*What is chit?*
+
+Chit is a very simple protocol for decentralised social networking, where each user owns their own data. Chit is not an app, but a definition of how apps can communicate to allow their users to interact with each other.
+
+
+*How does it work?*
+
+It starts with a simple file structure:
+
+`/                      `
+`├─ posts               `
+`├─ following           `
+`├─ followers           `
+
+The `posts` file is a text file that includes a list of posts. Each post entry includes the time it was posted in square brackets (milliseconds since Jan 1, 1970) followed by the post content. The time is used to delineate the posts.
+
+For example, a `posts` file might look like this:
+
+`[1668365517679]        `
+`This is a post         `
+`                       `
+`[1668365523465]        `
+`This is another post   `
+
+The two other files are also simple text files that list URLs, one per line. The `following` file lists other sites that this one follows. The `followers` file lists other sites that follow this one.
+
+The key requirement of chit sites is that they return these 3 static files when requested. No other requirements are enforced. The files should be available at the root of the domain, with no file extension. For example: https://chit.deta.dev/posts. 
+
+The files should be returned in their raw form whenever the HTTP `Accept` header does not include `text/html`. When the HTTP `Accept` header does include `text/html`, the site can return a readable, styled version of the webpage for consumption directly in a web browser.
+
+*How can users interact with each other?*
+
+Chit sites can also support a range of endpoints which other sites can call. These allow users to interact with each other.
+
+Currently there is only one such entry point:
+
+Add follower – The `/followers/add` endpoint allows one site to add itself to another site's followers list. The endpoint should accept multipart form data with the field `url`. This field should be the URL of the site which is requesting to add itself as a follower. When a site receives a request to add a follower, it should check the requestor's `/following` list to verify that it has indeed been followed.

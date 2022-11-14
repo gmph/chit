@@ -1,6 +1,167 @@
+:root {
+  --radius-m: 0.4em;
+}
+
 body {
   width: 100%;
   max-width: 560px;
-  margin: 2% auto;
-  padding: 12px
+  margin: 0.75em auto;
+  padding: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*:not(code) {
+  font-family: sans-serif;
+}
+
+nav>a {
+  margin-right: 0.5em;
+}
+
+p {
+  line-height: 1.3em;
+}
+
+code {
+  font-size: 1.2em;
+  background: rgba(0, 0, 0, .05);
+  line-height: 1.3em;
+}
+
+pre {
+  flex: 100% 1 1;
+  width: 100%;
+  white-space: pre-wrap;
+  word-break: normal;
+  border-radius: var(--radius-m);
+  padding: 0.5em 0.75em;
+  line-height: 1.3em;
+  background: rgba(0, 0, 0, .05);
+}
+
+label {
+  display: none;
+  visibility: hidden;
+}
+
+input,
+textarea {
+  min-width: 320px;
+  font-size: 1em;
+  padding: 0.5em 0.75em;
+  background: #eee;
+  border: none;
+  border-radius: var(--radius-m);
+}
+
+input[type="submit"] {
+  min-width: 0;
+  background: #444;
+  color: #fff;
+}
+
+textarea+input {
+  margin-top: 0.5em;
+}
+
+hr {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  border-top: #ccc;
+}
+
+li {
+  position: relative;
+  margin-bottom: 1em;
+  line-height: 1.3em;
+}
+
+h1+ul {
+  margin-top: 2em;
+}
+
+ul:has(>li>.avatar) {
+  padding: 0;
+}
+
+li:has(>.avatar) {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+li>.avatar {
+  flex: auto 0 0;
+  margin-right: 0.5em;
+}
+
+li:has(>.avatar)>*:not(.avatar) {
+  display: flex;
+  flex-direction: column;
+  flex: 100% 1 1;
+}
+
+li:has(>.avatar):not(:has(>div>pre)) {
+  align-items: center;
+}
+
+li:has(>.avatar)>*:not(.avatar)>pre {
+  width: auto;
+  align-self: flex-start;
+  max-width: 100%;
+  margin-top: 0.5em;
+  font-family: sans-serif;
+  font-size: 1em;
+  line-height: 1.3em;
+}
+
+.avatar::after {
+  content: var(--data-initials);
+  display: block;
+  width: 2em;
+  height: 2em;
+  border-radius: 2em;
+  background: var(--data-color);
+  overflow: hidden;
+  font-family: sans-serif;
+  font-size: 1em;
+  color: #fff;
+  padding: 0.5em;
+  line-height: 1em;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+div:has(>.avatar + form) {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+div:has(>.avatar + form)>.avatar {
+  flex: auto 0 0;
+  margin-right: 0.5em;
+}
+
+div:has(>.avatar + form)>form {
+  flex: 100% 1 1;
+}
+
+form#create_post {
+  margin-bottom: 0;
+  text-align: right;
+}
+
+div:has(>.avatar + form)>form:not(:focus-within) input[type="submit"]:not(:disabled) {
+  display: none;
+}
+
+input:disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }

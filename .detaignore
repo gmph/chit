@@ -1,0 +1,12 @@
+password.txt
+posts.txt
+following.txt
+followers.txt
+about.txt
+
+__pycache__
+README.md
+.git
+.gitignore
+.gitattributes
+.test
