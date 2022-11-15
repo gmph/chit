@@ -3,9 +3,12 @@ posts.txt
 following.txt
 followers.txt
 about.txt
+mentions.txt
+avatar.jpg
 
 __pycache__
 README.md
+TODO.md
 .git
 .gitignore
 .gitattributes

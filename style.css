@@ -119,12 +119,18 @@ li:has(>.avatar)>*:not(.avatar)>pre {
   line-height: 1.3em;
 }
 
+.avatar {
+  position: relative;
+  width: 2em;
+  height: 2em;
+}
+
 .avatar::after {
   content: var(--data-initials);
   display: block;
-  width: 2em;
-  height: 2em;
-  border-radius: 2em;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
   background: var(--data-color);
   overflow: hidden;
   font-family: sans-serif;
@@ -135,6 +141,20 @@ li:has(>.avatar)>*:not(.avatar)>pre {
   box-sizing: border-box;
   text-transform: uppercase;
   text-align: center;
+}
+
+.avatar::before {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 100%;
+  background-image: var(--data-avatar-url);
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 div:has(>.avatar + form) {
@@ -164,4 +184,14 @@ div:has(>.avatar + form)>form:not(:focus-within) input[type="submit"]:not(:disab
 input:disabled {
   opacity: 0.5;
   pointer-events: none;
+}
+
+.mention.is-self {
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+}
+
+pre:has(.mention.is-self) {
+  background-color: rgba(0, 0, 255, 0.1);
 }

@@ -28,10 +28,11 @@ The key requirement of chit sites is that they return these 3 static files when 
 
 The files should be returned in their raw form whenever the HTTP `Accept` header does not include `text/html`. When the HTTP `Accept` header does include `text/html`, the site can return a readable, styled version of the webpage for consumption directly in a web browser.
 
+
 *How can users interact with each other?*
 
 Chit sites can also support a range of endpoints which other sites can call. These allow users to interact with each other.
 
-Currently there is only one such entry point:
+Add follower – The `/followers/add` endpoint allows one site to add itself to another site's followers list. The endpoint should accept multipart form data with the field `url`. This field should be the URL of the site which is requesting to add itself as a follower. When a site receives a request to add a follower, it should check the requestor's `/following` list to verify that it has indeed been followed. If so, it can add that site's URL to its `/followers` list.
 
-Add follower – The `/followers/add` endpoint allows one site to add itself to another site's followers list. The endpoint should accept multipart form data with the field `url`. This field should be the URL of the site which is requesting to add itself as a follower. When a site receives a request to add a follower, it should check the requestor's `/following` list to verify that it has indeed been followed.
+Add mention – The `/mentions/add` endpoint allows one site to notify another that it was mentioned. The endpoint should accept multipart form data with the field `post_url`. This field should be the URL of the post that mentions the site. When a site receives a mention, it should check the post URL to verify that it is a valid post mentioning it. If so, it can add that mention to its private `/mentions` list. The original URL of the mentioning post should be inserted as the first line of the post text in the form `>https://example.com/posts/123`.
