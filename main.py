@@ -16,6 +16,7 @@ from deta import Deta
 class Post(BaseModel):
     text: str
     time: int
+    url: str
 
 
 password_cookie = APIKeyCookie(name="password", auto_error=False)
@@ -107,17 +108,21 @@ async def get_feed(request: Request, authenticated: bool = Depends(is_authentica
     list_items_html = list(map(lambda p: get_post_item_html(
         p.get('url'), p.get('text'), p.get('time'), current_url=normalized_current_url
     ), posts))
-    content_html = (get_create_post_html(
-        normalized_current_url) if authenticated else '')
-    return await html_or_raw_response(
-        request,
-        authenticated=authenticated,
-        data=posts,
-        status_code=200,
-        title='Feed',
-        content=content_html,
-        list_items=list_items_html
-    )
+    try:
+        content_html = (get_create_post_html(
+            normalized_current_url) if authenticated else '')
+        return await html_or_raw_response(
+            request,
+            authenticated=authenticated,
+            data=posts,
+            status_code=200,
+            title='Feed',
+            content=content_html,
+            list_items=list_items_html
+        )
+    except Exception as e:
+        print(e)
+        return PlainTextResponse('', 500)
 
 
 @app.get('/posts', tags=["posts"], response_model=list[Post], responses={200: {"description": "Successfully got posts"}})
@@ -487,13 +492,15 @@ async def get_style():
     about = await get_variables()
     avatar_file_path = about.get('avatar')
     try:
-        if not avatar_file_path:
+        if not avatar_file_path or len(avatar_file_path) < 1:
             raise Exception('No avatar file')
         avatar_file = await read_file(file_name=avatar_file_path, force_local=False, force_raw=True)
         if len(avatar_file) < 1:
             raise Exception('No avatar file contents')
-        return Response(avatar_file, status_code=200)
-    except:
+        file_type = 'image/' + avatar_file_path.split('.').pop()
+        return Response(avatar_file, status_code=200, media_type=file_type, headers={'Cache-Control': 'max-age=604800'})
+    except Exception as e:
+        print(e)
         return PlainTextResponse('', status_code=404)
 
 
@@ -618,7 +625,7 @@ async def get_html_response(title: str, status_code: int = 200, content: str = N
     avatar_path: str = about.get('avatar')
     head_html = '<head><title>' + title + '</title>' + \
         '<link rel="stylesheet" type="text/css" href="/style.css" />' + \
-        '<link rel="icon" type="image/'+avatar_path.split('.').pop()+'" href="/avatar"/>' + \
+        ('<link rel="icon" type="image/'+avatar_path.split('.').pop()+'" href="/avatar"/>' if avatar_path else '') + \
         '<meta name="viewport" content="width=device-width, initial-scale=1.0" /></head>'
     page_title_html = "<h1>" + title + "</h1>"
     content_html = "<p>" + content + "</p>" if content else ""

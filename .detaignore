@@ -9,7 +9,8 @@ avatar.jpg
 __pycache__
 README.md
 TODO.md
+.test
+
 .git
 .gitignore
 .gitattributes
-.test
